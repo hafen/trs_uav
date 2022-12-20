@@ -1,0 +1,13 @@
+__loadDisplayList__644feef1([
+  {
+    "group": "common",
+    "name": "Award_Cards",
+    "desc": "Summary cards of UAV awards of >$100k from 2000-2021",
+    "n": 14494,
+    "order": 1,
+    "height": 500,
+    "width": 700,
+    "updated": "2022-12-19 18:08:08",
+    "keySig": "41718037a88c37a91f0a6a2cc929e43e"
+  }
+])

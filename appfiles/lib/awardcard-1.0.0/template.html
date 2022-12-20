@@ -1,0 +1,74 @@
+<div class="ac-outer">
+  <div class="ac-card-widget" style="width: {{width}}px; height: {{height}}px; font-size: {{base_font}}px;">
+  
+  <div class="title">
+    <span class="key-color">AWARD: </span>
+    {{name_award}}
+  </div>
+  
+  <div class="funding-amount">
+  <div class="amt big w7">
+    <span class="key-color" style="font-size: 75%;">AMOUNT: </span>
+    ${{amount}}
+  </div>
+  <div class="amt c7 w7 m{{amt_idx}} u{{amt_idx}}"><span>> $10M</span></div>
+  <div class="amt c6 w6 m{{amt_idx}} u{{amt_idx}}"><span>$1M - $10M</span></div>
+  <div class="amt c5 w5 m{{amt_idx}} u{{amt_idx}}"><span>$100K - $1M</span></div>
+  <div class="amt c4 w4 m{{amt_idx}} u{{amt_idx}}"><span>$1K - $100K</span></div>
+  <div class="amt c3 w3 m{{amt_idx}} u{{amt_idx}}"><span>$100 - $1K</span></div>
+  <div class="amt c2 w2 m{{amt_idx}} u{{amt_idx}}"><span>$0 - $100</span></div>
+  <div class="amt c1 w1 m{{amt_idx}} u{{amt_idx}}"><span>< $0</span></div>
+  </div>
+  
+  <div class="awardee">
+    <div class="awardee-location">
+      <span class="key-color" style="font-size: 75%">LOCATION: </span>{{state}}
+    </div>
+    <img src="{{state_url}}" class="img-fit" />
+    <div class="title-overlay">
+      <div>
+        <span class="key-color">AWARDEE: </span>
+        {{name_awardee}}
+      </div>
+      <div class="info-row one-line">
+        <span class="key-color">FUNDING 2000-2021: </span>
+        ${{tot_amount}}
+      </div>  
+    </div>
+  </div>
+  
+  <div class="funder">
+    <img src="{{agency_url}}" class="img-fit" />
+    <div class="title-overlay">
+      <div>
+        <span class="key-color">DEPARTMENT: </span>
+        {{from_dept}}
+      </div>
+      <div>
+        <span class="key-color">AGENCY: </span>
+        {{from_agency}}
+      </div>
+    </div>
+  </div>
+  
+  <div class="extra-info">
+    <div class="info-row one-line">
+      <span class="key-color">FUNDING TYPE: </span>
+      {{type_funding}}
+    </div>
+    <div class="info-row one-line">
+      <span class="key-color">YEAR: </span>
+      {{year_budget}}
+    </div>
+    <div class="info-row one-line">
+      <span class="key-color">PRODUCT: </span>
+      {{product}}
+    </div>
+    <div class="info-desc">
+      <span class="key-color">DESCRIPTION: </span>
+      {{description}}
+    </div>
+  </div>
+  
+  </div>
+  </div>

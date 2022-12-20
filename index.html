@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fidelius - Password Protected File</title>
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <style id="fidelius__styling">
+      :root {
+        --font-family: -apple-system;
+        --title_color: #2d3737;
+        --font-size: 16px;
+        --background-color: #f2f2f2;
+        --box-color: #ffffff;
+        --btn-font-color: #ffffff;
+        --btn-bg-color: #19A974;
+        --btn-hover-color: #137752;
+        --modal-overlay: rgba(0, 0, 0, 0.6);
+        --modal-box-color: #ffffff;
+        --modal-title-color: #137752;
+        --modal-font-color: rgba(0, 0, 0, 0.8);
+      }
+      *,
+      *:after,
+      *:before {
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        font-family: var(--font-family), -apple-system, BlinkMacSystemFont, 
+          'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 
+          'Droid Sans', 'Helvetica Neue', sans-serif;
+        font-weight: 300;
+        font-size: var(--font-size);
+        background: var(--background-color);
+        color: var(--title_color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100%;
+      }
+      .fidelius__main {
+        background: var(--box-color);
+        -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        min-width: 480px;
+      }
+      @media (max-width:480px) {
+        .fidelius__main {
+          min-width: 375px;
+        }
+      }
+      @media (max-width:375px) {
+        .fidelius__main {
+          min-width: 315px;
+        }
+      }
+      .fidelius__content {
+        padding: 24px 28px;
+        text-align: center;
+      }
+      .fidelius__content__heading {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: var(--font-size);
+        font-weight: 400;
+        margin: 0 0 12px;
+        line-height: 1;
+      }
+      .fidelius__content__input {
+        display: block;
+        border: solid 1px #ccc;
+        padding: 12px 14px;
+        -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+        font-size: var(--font-size);
+        font-family: var(--font-family);
+        width: 100%;
+        border-radius: 5px;
+        margin-bottom: 12px;
+        text-align: center;
+      }
+      .fidelius__content__input:focus {
+        outline: none;
+        border-color: var(--btn-bg-color);
+      }
+      .fidelius__content__btn {
+        background-color: var(--btn-bg-color);
+        border-radius: 5px;
+        cursor: pointer;
+        border: none;
+        color: var(--btn-font-color);
+        padding: 12px 14px;
+        font-family: var(--font-family), -apple-system, BlinkMacSystemFont, 
+          'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 
+          'Droid Sans', 'Helvetica Neue', sans-serif;
+        font-weight: 300;
+        font-size: var(--font-size);
+        width: 100%;
+        transition: background-color 200ms ease-in-out;
+      }
+      .fidelius__content__btn:hover {
+        background-color: var(--btn-hover-color);
+      }
+      @keyframes headShake {
+        0% {
+          transform: translateX(0);
+        }
+
+        6.5% {
+          transform: translateX(-6px) rotateY(-9deg);
+        }
+
+        18.5% {
+          transform: translateX(5px) rotateY(7deg);
+        }
+
+        31.5% {
+          transform: translateX(-3px) rotateY(-5deg);
+        }
+
+        43.5% {
+          transform: translateX(2px) rotateY(3deg);
+        }
+
+        50% {
+          transform: translateX(0);
+        }
+      }
+      .fidelius__headShake {
+        animation: headShake 750ms ease-in-out 0ms 1 forwards;
+        animation-name: headShake;
+      }
+      .fidelius__password__div {
+        position: relative;
+      }
+      .fidelius__eye {
+        position: absolute;
+        top: 22.5%;
+        left: 2%;
+        opacity: 0.5;
+        transition: opacity 200ms ease-in-out;
+      }
+      .fidelius__eye:hover {
+        opacity: 1;
+      }
+      .fidelius__eye_open, .fidelius__eye_closed {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+        z-index: 2;
+      }
+      .fidelius__icon__hint {
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 0 12px;
+        line-height: 1;
+        width: 25px;
+        height: 25px;
+        transition: all 200ms ease-in-out;
+      }
+      .fidelius__icon__hint:hover {
+        transform: scale(1.25);
+      }
+
+      
+    </style>
+  </head>
+  <body>
+    <div class="fidelius__main">
+      <div class="fidelius__content">
+        <div class="fidelius__heading__div">
+          <h1 class="fidelius__content__heading">PLEASE ENTER THE PASSWORD</h1>
+        </div>
+        <div class="fidelius__password__div">
+          <form action="javascript:void(0);" method="post">
+            <input
+              class="fidelius__content__input"
+              data-id="password"
+              id="password"
+              type="password"
+              name="password"
+              placeholder=""
+              autocomplete="current-password"
+            />
+          </form>
+          <div class="fidelius__eye"><svg xmlns="http://www.w3.org/2000/svg" class="fidelius__eye_open" width="192" height="192" fill="#000000" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><path d="M128,55.99219C48,55.99219,16,128,16,128s32,71.99219,112,71.99219S240,128,240,128,208,55.99219,128,55.99219Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path><circle cx="128" cy="128.00061" r="40" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></circle></svg></div>
+        </div>
+        <button data-id="button" type="button" class="fidelius__content__btn">
+          SUBMIT
+        </button>
+      </div>
+    </div>
+    <script id="fidelius__sodium" src="https://cdnjs.cloudflare.com/ajax/libs/libsodium-wrappers/0.5.4/sodium.min.js"></script>
+    
+    <script id="fidelius__nonce" type="text/plain">9be7690205b05fb3364cabd5fe363c93aef3bc3dc844d3e5</script>
+    <script id="fidelius__content" type="text/plain">62acb019f8f5088fa162ef1c719ee191dd063f75c89ce7e917d89878ad24cf0de13390f54ba837c33e8153f5ba2195026d9b88e994718ce170c0850485741d90b7739c41e348366f53e5b50ba262096a15a0f35b71a3caf11f4d406829eef56ec3a4682a8d125f19f2e53de4355476a1c9e8e3e357d14d6941077c603e2544b5da8c65d8afa66338e41c59f02c5fdbe9bee9cd1e26068e17dcebbc28e41dfdad626c4c64a4655ba3a1dfdecd71c507a97bf95c07441a89b50a82966a402805e93128a8ac23bacfe391c0b54c7ae000ee16da2c6c5ac3ade3e7fd3a9cf12e728ac3ebce5fcb23882c6981d490d61bf3ecf1f450d91a93fdd501d759de8ec6a7fe5a2145516d5e83b02e002aa86e53bfdb27bef2bca5d63890dc30a9cb78308ee34dc109db6bde5dccc28aa8719fb3cfb914e264dc2364fdb17866fbf0c6beb8d205863120e64de63e82455a6085dc15a9ebe16f3670b76afba983644648e3f25a000e816b85f9cf00bb0f45ed2b46cb8e9f96f1bb3f40a32375ab11d8224942151aa7b53fabdc72d69ad86db3218e279e691d7b78c609160cf3322696e4ec258c1efa219f294ab5ebeab657a54ea1d3584ff787ee2e221458a5156e2a604511e44a19a45ed55f9504934667bfa774338d5396d22e1d55eab62c2778ef40d395feb064c39f1becdbf1f9c70dc4eae280aa62a37c058dba45f4e407137e41e3a41e43b2d989c31d488c479610b8da25c1ed68e0b822ec811f7698d70b1b3295688895b31d4f5dfa988a4cbebfe802c254a77cecefa9514f78265b3b25428537246dc95752b45adda0ad47ebfaa0d227ab24cfce34b2f3f76b4658c9a7bc55fee956a0ca536cfda65716c2e4dc0e2d6fa570440dad2c2a9920654d4bd40aee0fc92de10a10c5956ab9edd5d04e3cfd6084a9bf0b7f88481a0adc81c56f62a16b00b9eb0be35f00152043462fbd57af86cc273cbaaa4fe57964133dc7a04a80078ca35c2faee38107fdd3f73b4f6d9bef8dbcb34116856b8f468d3bf6c5baf1fa72286d46c1e98cf07fd040885e3d3b429eef9cfd89b23818b2edf87a5c6106fe05c816dcac41607521e28fdc094f3964f96c8c5062af6df48b9f8efc80a1638b8602effc028ad7354ad04d40a538acbc588c763aa5514c3f74298aab8653b82df6f40f3049ea126245bf6518d8c0d36f97efdebb856f7be2e2c9e87870c68154ce1de60e9f1baac2780269b51674716b0415bf88f4a16f48b7f9bf1e947189002530cd6bb7ed7ab40895a0a1322e3ae11bb4ce953438506e299470546e2fba2305da4b6bcf7701a91e664aa46b02f4f60a961bf0debf260c9aa49da5745716a7c8afe7b182fdd234f676390261e23a80b1dbf078551b67e9f9d93e5d7b15e15773d86e8e9ee5a6dff41d97d1cee7db0fa793ed07caeb73abd607dd1aefd7ff7a5861baeeed9956a220510031dd74085bc947efce8b7843c90f68c4ade080e194184cc6549e450ce514b5987517a40b9ff04dd1382797b12b4b5fa6bfdbd120d7d9b80ead47cfd4b857a2da854ad2b05b2bd4d15388fc98aa590f11eb86818489f0a797b808b3b73dd0ebcfb14412e2cc93fe610bb9428936513a72890957796d531f3b2ca3763d053666eb3587f643abe6ea</script>
+    <script id="fidelius__hint" type="text/plain"></script>
+    <script id="fidelius__js">
+      document.addEventListener('DOMContentLoaded', function () {
+        let nonce = sodium.from_hex(
+          document.querySelector('#fidelius__nonce').innerText
+        )
+        let content = sodium.from_hex(
+          document.querySelector('#fidelius__content').innerText,
+        )
+        let hint = document.querySelector('#fidelius__hint').innerText
+
+        if (hint !== "") {
+          let heading_div = document.querySelector(".fidelius__heading__div")
+          heading_div = heading_div.insertAdjacentHTML('beforeend', fidelius__icons.hint)
+          let modal__content__hint = document.querySelector(".modal__content__hint")
+          modal__content__hint.innerText = hint
+          MicroModal.init()
+        }
+
+        let submit_btn = document.querySelector('.fidelius__content__btn')
+        let input = document.querySelector('.fidelius__content__input')
+        input.focus()
+        let content_box = document.querySelector('.fidelius__content')
+
+        input.addEventListener('input', () => {
+          input.style.borderColor = getComputedStyle(document.body).getPropertyValue('--btn-bg-color')
+        })
+
+        function toggle_password_show () {
+          let show_icon = document.querySelector('.fidelius__eye > svg')
+          if (input.type === "password") {
+            input.type = "text"
+            new_icon = document.createRange().createContextualFragment(fidelius__icons.eye_slash)
+            show_icon.replaceWith(new_icon)
+            input.focus()
+          } else {
+            input.type = "password"
+            new_icon = document.createRange().createContextualFragment(fidelius__icons.eye)
+            show_icon.replaceWith(new_icon)
+            input.focus()
+          }
+        }
+
+        let showpass = document.querySelector('.fidelius__eye')
+        ;['click', 'touchend'].forEach(function(ev) {
+          showpass.addEventListener(ev, (ev) => {
+            ev.stopPropagation()
+            ev.preventDefault()
+            toggle_password_show()
+          })
+        })
+
+        function decrypter () {
+          // Get the password and hash it
+          let password = input.value
+          let password_hash = sodium.crypto_generichash(32, sodium.from_string(password))
+
+          try {
+            // Try the password and catch the error to throw "incorrect pass"
+            let html = sodium.crypto_secretbox_open_easy(
+              content,
+              nonce,
+              password_hash,
+            )
+            let html_text = sodium.to_string(html)
+            document.write(html_text)
+            document.close()
+          } catch (error) {
+            // Incorrect password
+            input.style.borderColor = "#E7040F"
+            content_box.classList.add("fidelius__headShake")
+            setTimeout(function() {
+              content_box.classList.remove("fidelius__headShake");
+            }, 250);
+            input.select()
+            input.focus()
+          }
+        }
+
+        ;['click', 'touchend'].forEach(function(ev) {
+          submit_btn.addEventListener(ev, decrypter)
+        })
+
+        document.addEventListener('keyup', (e) => {
+          if (e.keyCode === 13) {
+            decrypter()
+          }
+        })
+      })
+
+      var fidelius__icons = {
+        locked:
+          "data:image/svg+xml,%3Csvg class='fidelius__icon__locked' xmlns='http://www.w3.org/2000/svg' width='192' height='192' fill='%23000000' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' fill='none'%3E%3C/rect%3E%3Ccircle cx='127.99414' cy='140' r='20' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='16'%3E%3C/circle%3E%3Cline x1='127.99414' y1='160' x2='127.99414' y2='184' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='16'%3E%3C/line%3E%3Crect x='39.99414' y='88' width='176' height='128' rx='8' stroke-width='16' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' fill='none'%3E%3C/rect%3E%3Cpath d='M91.99414,88V52a36,36,0,1,1,72,0V88' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='16'%3E%3C/path%3E%3C/svg%3E",
+        opened:
+          "data:image/svg+xml,%3Csvg class='fidelius__icon__opened' xmlns='http://www.w3.org/2000/svg' width='192' height='192' fill='%23000000' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' fill='none'%3E%3C/rect%3E%3Ccircle cx='127.99414' cy='140' r='20' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='16'%3E%3C/circle%3E%3Cline x1='127.99414' y1='160' x2='127.99414' y2='184' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='16'%3E%3C/line%3E%3Crect x='39.99414' y='88' width='176' height='128' rx='8' stroke-width='16' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' fill='none'%3E%3C/rect%3E%3Cpath d='M91.99414,88V52a36,36,0,1,1,72,0' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='16'%3E%3C/path%3E%3C/svg%3E",
+        hint:
+          '<svg data-micromodal-trigger="fidelius-modal" class="fidelius__icon__hint" xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="#000000" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><circle cx="128" cy="128" r="96" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></circle><circle cx="128" cy="180" r="12"></circle><path d="M127.9995,144.0045v-8a28,28,0,1,0-28-28" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path></svg>',
+        eye:
+          '<svg xmlns="http://www.w3.org/2000/svg" class="fidelius__eye_open" width="192" height="192" fill="#000000" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><path d="M128,55.99219C48,55.99219,16,128,16,128s32,71.99219,112,71.99219S240,128,240,128,208,55.99219,128,55.99219Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path><circle cx="128" cy="128.00061" r="40" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></circle></svg>',
+        eye_slash:
+          '<svg xmlns="http://www.w3.org/2000/svg" class="fidelius__eye_closed" width="192" height="192" fill="#000000" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><line x1="48" y1="40.00122" x2="208" y2="216.00122" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line><path d="M154.9071,157.599a40.00028,40.00028,0,0,1-53.8142-59.19562" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path><path d="M73.99446,68.59479C33.22519,89.24034,16,128.00122,16,128.00122s32,71.99219,112,71.99219a118.0238,118.0238,0,0,0,53.99756-12.59461" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path><path d="M208.60953,169.10059C230.41132,149.57342,240,128.00122,240,128.00122S208,55.99341,128,55.99341a125.31923,125.31923,0,0,0-20.68221,1.68414" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path><path d="M135.52737,88.709a40.02411,40.02411,0,0,1,32.29785,35.52874" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path></svg>'
+      }
+
+      function create_favicon (state) {
+        let link = document.createElement('link')
+        link.rel = 'icon'
+        link.type = 'image/x-icon'
+        link.href = fidelius__icons[state]
+        document.getElementsByTagName('head')[0].appendChild(link)
+      }
+      create_favicon('locked')
+    </script>
+    
+  </body>
+</html>
+
